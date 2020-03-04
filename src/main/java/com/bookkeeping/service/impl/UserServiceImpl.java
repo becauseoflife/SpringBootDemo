@@ -1,10 +1,12 @@
 package com.bookkeeping.service.impl;
 
+import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bookkeeping.mapper.UserBookkeepingMsgMapper;
 import com.bookkeeping.mapper.UserInfoMapper;
 import com.bookkeeping.pojo.JSONResult;
 import com.bookkeeping.pojo.UserInfo;
@@ -15,6 +17,12 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserInfoMapper userMapper;
+	
+	@Autowired
+	private UserBookkeepingMsgMapper userOperMsgMapper;
+	
+	@Autowired
+	private Sid sid;
 
 	/*
 	 * @Override
@@ -45,7 +53,18 @@ public class UserServiceImpl implements UserService{
 			if (userMapper.selectByPrimaryKey(user.getAccount()) != null) {
 				return JSONResult.errorMsg("账号已经存在");
 			}else {
+				// 创建对应表储存信息
+				String tableName = user.getAccount();
+				userOperMsgMapper.createTable(tableName);
+				
+				if(userOperMsgMapper.existTable(tableName) > 0) {
+					System.out.println("创建成功");
+				}else {
+					System.out.println("创建失败");
+				}
+				
 				userMapper.insert(user);
+				
 				return JSONResult.ok("注册成功");
 			}
 		} catch (Exception e) {

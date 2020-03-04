@@ -32,7 +32,7 @@ public class WXRegisterController {
 			String account,
 			String password) {
 		
-		//System.out.println(netName + "\n" + name + "\n" + telephone + "\n" + account + "\n" + password + "\n");
+		System.out.println(netName + "\n" + name + "\n" + telephone + "\n" + account + "\n" + password + "\n");
 
 		UserInfo user = new UserInfo();
 		user.setName(name);
@@ -40,6 +40,9 @@ public class WXRegisterController {
 		user.setTelephone(telephone);
 		user.setAccount(account);
 		user.setPassword(password);
+		user.setHopeSave(0.0);
+		user.setWeekMaxCost(0.0);
+		user.setMonthMaxCost(0.0);
 		
 		return service.userRedister(user);
 	}

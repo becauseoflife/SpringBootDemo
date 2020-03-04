@@ -5,6 +5,9 @@ import javax.persistence.*;
 @Table(name = "user_info")
 public class UserInfo {
     @Id
+    private String id;
+
+    @Id
     private String account;
 
     private String password;
@@ -15,6 +18,29 @@ public class UserInfo {
     private String netname;
 
     private String telephone;
+
+    @Column(name = "hope_save")
+    private Double hopeSave;
+
+    @Column(name = "week_max_cost")
+    private Double weekMaxCost;
+
+    @Column(name = "month_max_cost")
+    private Double monthMaxCost;
+
+    /**
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * @return account
@@ -84,5 +110,47 @@ public class UserInfo {
      */
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    /**
+     * @return hope_save
+     */
+    public Double getHopeSave() {
+        return hopeSave;
+    }
+
+    /**
+     * @param hopeSave
+     */
+    public void setHopeSave(Double hopeSave) {
+        this.hopeSave = hopeSave;
+    }
+
+    /**
+     * @return week_max_cost
+     */
+    public Double getWeekMaxCost() {
+        return weekMaxCost;
+    }
+
+    /**
+     * @param weekMaxCost
+     */
+    public void setWeekMaxCost(Double weekMaxCost) {
+        this.weekMaxCost = weekMaxCost;
+    }
+
+    /**
+     * @return month_max_cost
+     */
+    public Double getMonthMaxCost() {
+        return monthMaxCost;
+    }
+
+    /**
+     * @param monthMaxCost
+     */
+    public void setMonthMaxCost(Double monthMaxCost) {
+        this.monthMaxCost = monthMaxCost;
     }
 }

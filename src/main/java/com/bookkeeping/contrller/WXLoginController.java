@@ -17,7 +17,7 @@ class WXLoginController {
 	@PostMapping("/login")
 	public JSONResult wxLogin(String account, String password) {
 		
-		// System.out.println("account:" + account + "  " + "password:" + password);
+		System.out.println("account:" + account + "  " + "password:" + password);
 			
 		return service.userLogin(account, password);
 	}

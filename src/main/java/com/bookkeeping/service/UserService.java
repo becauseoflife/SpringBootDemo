@@ -18,4 +18,5 @@ public interface UserService {
 	
 	// 用户登陆
 	public JSONResult userLogin(String userAccount, String userPassword);
+	
 }
