@@ -30,25 +30,21 @@ public class HelloController {
 		return "Hello " + mobile;
 	}
 	
-	@RequestMapping("/saveUser")
-	public JSONResult saveUser() throws Exception{
-		
-		UserInfo user = new UserInfo();
-		user.setAccount("123456");
-		user.setName("测试");
-		user.setNetname("昵称");
-		user.setPassword("123456");
-		user.setTelephone("14735225864");
-		
-		userService.saveUser(user);
-		
-		return JSONResult.ok();
-	}
-	
-	@RequestMapping("/queryByAccount")
-	public JSONResult queryUserByAccount(String account) {
-		System.out.println(account);
-		return JSONResult.ok(userService.queryUserByAccount(account));
-		
-	}
+	/*
+	 * @RequestMapping("/saveUser") public JSONResult saveUser() throws Exception{
+	 * 
+	 * UserInfo user = new UserInfo(); user.setAccount("123456");
+	 * user.setName("测试"); user.setNetname("昵称"); user.setPassword("123456");
+	 * user.setTelephone("14735225864");
+	 * 
+	 * userService.saveUser(user);
+	 * 
+	 * return JSONResult.ok(); }
+	 * 
+	 * @RequestMapping("/queryByAccount") public JSONResult
+	 * queryUserByAccount(String account) { System.out.println(account); return
+	 * JSONResult.ok(userService.queryUserByAccount(account));
+	 * 
+	 * }
+	 */
 }
