@@ -24,7 +24,7 @@ public class WXRegisterController {
 	 * @param password	密码
 	 * @return 注册结果
 	 */
-	@RequestMapping("/register")
+	@RequestMapping("/userRegister")
 	public JSONResult userRegister(
 			String netName,
 			String name,

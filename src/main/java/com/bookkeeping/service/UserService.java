@@ -20,6 +20,6 @@ public interface UserService {
 	public JSONResult userRedister(UserInfo user);
 	
 	// 用户登陆
-	public JSONResult userLogin(HttpServletResponse response, String userAccount, String userPassword);
+	public JSONResult userLogin(HttpServletRequest request, String userAccount, String userPassword);
 	
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * 
  * @Title: JSONResult.java
- * @Package com.bookkeep.pojo
+ * @Package 
  * @Description: 自定义响应数据结构
  * 				这个类是提供给门户，ios，安卓，微信商城用的
  * 				门户接受此类数据后需要使用本类的方法转换成对于的数据类型格式（类，或者list）
@@ -46,6 +46,10 @@ public class JSONResult {
 	    public static JSONResult ok(String msg, Object data) {
 	        return new JSONResult(msg, data);
 	    }
+	    
+	    public static JSONResult ok(Object data) {
+	    	return new JSONResult(data);
+	    }
 
 	    public static JSONResult ok() {
 	        return new JSONResult(null);
@@ -86,6 +90,12 @@ public class JSONResult {
 	        this.msg = msg;
 	        this.data = null;
 	    }
+	    
+	    public JSONResult(Object data) {
+	    	this.status = 200;
+	        this.msg = null;
+	        this.data = data;
+		}
 	    
 	    public JSONResult(String msg ,Object data) {
 	        this.status = 200;

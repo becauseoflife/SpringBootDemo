@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.Forbidden;
 
 import com.bookkeeping.mapper.UserInfoMapperCustom;
+import com.bookkeeping.model.WXSessionModel;
 import com.bookkeeping.pojo.JSONResult;
 import com.bookkeeping.pojo.UserInfo;
 import com.bookkeeping.service.UserService;
+import com.bookkeeping.utils.JsonUtils;
+import com.bookkeeping.utils.RedisOperator;
+import com.fasterxml.jackson.core.json.JsonReadContext;
 
 @RequestMapping("test")
 @RestController
@@ -58,7 +62,7 @@ public class HelloController {
 
 	@Autowired
 	private StringRedisTemplate redis;
-
+	
 	@RequestMapping("/redis")
 	public JSONResult test() {
 
@@ -67,6 +71,26 @@ public class HelloController {
 		String str = redis.opsForValue().get("my-redis");
 
 		return JSONResult.ok(str);
+	}
+	
+	@Autowired
+	private RedisOperator myRedis;
+	
+	@RequestMapping("/testMyRedis")
+	public JSONResult myRedis() {
+		
+		WXSessionModel model = new WXSessionModel();
+		model.setSessionId("sessionId");
+		model.setUserId("userId");
+		model.setUserAccount("userAccount");
+		model.setUserPassword("userPassword");
+		
+		myRedis.set("userLoginMsg:userId", JsonUtils.objectToJson(model), 200);
+		
+		WXSessionModel getModel = JsonUtils.jsonToPojo(myRedis.get("userLoginMsg:userId"), WXSessionModel.class);
+		
+		return JSONResult.ok(getModel);
+		
 	}
 
 	/*
