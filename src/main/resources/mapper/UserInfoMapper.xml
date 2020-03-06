@@ -5,8 +5,8 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
     <id column="account" jdbcType="CHAR" property="account" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="password" jdbcType="CHAR" property="password" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="netName" jdbcType="CHAR" property="netname" />
@@ -15,4 +15,5 @@
     <result column="week_max_cost" jdbcType="DOUBLE" property="weekMaxCost" />
     <result column="month_max_cost" jdbcType="DOUBLE" property="monthMaxCost" />
   </resultMap>
+  
 </mapper>

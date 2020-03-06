@@ -39,8 +39,12 @@ public class JSONResult {
 	        return new JSONResult(status, msg, data);
 	    }
 
-	    public static JSONResult ok(Object data) {
-	        return new JSONResult(data);
+	    public static JSONResult ok(String msg) {
+	    	return new JSONResult(msg);
+	    }
+	    
+	    public static JSONResult ok(String msg, Object data) {
+	        return new JSONResult(msg, data);
 	    }
 
 	    public static JSONResult ok() {
@@ -77,9 +81,15 @@ public class JSONResult {
 	        this.data = data;
 	    }
 
-	    public JSONResult(Object data) {
+	    public JSONResult(String msg) {
+	    	this.status = 200;
+	        this.msg = msg;
+	        this.data = null;
+	    }
+	    
+	    public JSONResult(String msg ,Object data) {
 	        this.status = 200;
-	        this.msg = "OK";
+	        this.msg = msg;
 	        this.data = data;
 	    }
 

@@ -2,38 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookkeeping.mapper.UserBookkeepingMsgMapper">
   <resultMap id="BaseResultMap" type="com.bookkeeping.pojo.UserInfo">
-    <id column="id" jdbcType="CHAR" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="date" jdbcType="DATE" property="date" />
     <result column="cost" jdbcType="DOUBLE" property="cost" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="hope_save" jdbcType="DOUBLE" property="hope_save" />
-    <result column="week_max_cost" jdbcType="DOUBLE" property="week_max_cost" />
-    <result column="month_max_cost" jdbcType="DOUBLE" property="month_max_cost" />
   </resultMap>
   
   <!-- 查询表是否存在 -->
   <select id="existTable" parameterType="String" resultType="Integer">  
-    select count(*)  
-    from information_schema.TABLES  
-    where table_name = #{tableName} 
+	    select count(*)  
+	    from information_schema.TABLES  
+	    where table_name = #{tableName} 
   </select>
   
   <!-- 删除表 -->
    <update id="dropTable">  
-    DROP TABLE IF EXISTS ${tableName} 
+    	DROP TABLE IF EXISTS ${tableName} 
   </update>  
   
   <!-- 创建表 -->
   <update id="createTable" parameterType="String">  
-	CREATE TABLE ${tableName} (
-	  `id` CHAR(15) NOT NULL,
-	  `date` DATE NOT NULL,
-	  `cost` DOUBLE NOT NULL,
-	  `type` VARCHAR(5) NOT NULL,
-	  `hope_save` DOUBLE NULL DEFAULT 0,
-	  `week_max_cost` DOUBLE NULL DEFAULT 0,
-	  `month_max_cost` DOUBLE NULL DEFAULT 0,
-	  PRIMARY KEY (`id`));
+		CREATE TABLE ${tableName} (
+		  `id` VARCHAR(30) NOT NULL COMMENT 'id',
+		  `date` DATE NOT NULL COMMENT '时间',
+		  `cost` DOUBLE NOT NULL COMMENT '花费',
+		  `type` VARCHAR(5) NOT NULL COMMENT '种类',
+		  PRIMARY KEY (`id`));
   </update> 
   
 </mapper>

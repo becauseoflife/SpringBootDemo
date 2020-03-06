@@ -5,10 +5,10 @@ import javax.persistence.*;
 @Table(name = "user_info")
 public class UserInfo {
     @Id
-    private String id;
+    private String account;
 
     @Id
-    private String account;
+    private String id;
 
     private String password;
 
@@ -29,20 +29,6 @@ public class UserInfo {
     private Double monthMaxCost;
 
     /**
-     * @return id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
      * @return account
      */
     public String getAccount() {
@@ -54,6 +40,20 @@ public class UserInfo {
      */
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    /**
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**

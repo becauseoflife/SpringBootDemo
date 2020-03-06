@@ -1,5 +1,9 @@
 package com.bookkeeping.service.impl;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bookkeeping.mapper.UserBookkeepingMsgMapper;
 import com.bookkeeping.mapper.UserInfoMapper;
+import com.bookkeeping.mapper.UserInfoMapperCustom;
 import com.bookkeeping.pojo.JSONResult;
 import com.bookkeeping.pojo.UserInfo;
 import com.bookkeeping.service.UserService;
@@ -23,6 +28,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private Sid sid;
+	
+	@Autowired
+	private UserInfoMapperCustom customMapper;
 
 	/*
 	 * @Override
@@ -50,11 +58,14 @@ public class UserServiceImpl implements UserService{
 	public JSONResult userRedister(UserInfo user) {
 		// 检查用户是否存在
 		try {
-			if (userMapper.selectByPrimaryKey(user.getAccount()) != null) {
+			if (customMapper.queryUserByAccount(user.getAccount()) != null) {
 				return JSONResult.errorMsg("账号已经存在");
 			}else {
+				// 创建id
+				String id = sid.nextShort();
+				user.setId(id);
 				// 创建对应表储存信息
-				String tableName = user.getAccount();
+				String tableName = id;
 				userOperMsgMapper.createTable(tableName);
 				
 				if(userOperMsgMapper.existTable(tableName) > 0) {
@@ -76,11 +87,11 @@ public class UserServiceImpl implements UserService{
 
 	// 用户登陆
 	@Override
-	public JSONResult userLogin(String userAccount, String userPassword) {
+	public JSONResult userLogin(HttpServletResponse response, String userAccount, String userPassword) {
 		// TODO Auto-generated method stub
 		// 检车账号是否存在
 		UserInfo user = new UserInfo();
-		user = userMapper.selectByPrimaryKey(userAccount);
+		user = customMapper.queryUserByAccount(userAccount);
 		if(user == null) {
 			return JSONResult.errorMsg("账号不存在，请先注册");
 		}else {
@@ -89,6 +100,10 @@ public class UserServiceImpl implements UserService{
 			if(!user.getPassword().equals(userPassword)) {
 				return JSONResult.errorMsg("密码错误");
 			}else {
+				// 登录成功返回sessionId	
+				
+				
+				
 				return JSONResult.ok("登录成功");
 			}
 		}
