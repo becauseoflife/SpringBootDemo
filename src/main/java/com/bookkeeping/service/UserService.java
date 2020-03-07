@@ -3,6 +3,8 @@ package com.bookkeeping.service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bookkeeping.pojo.JSONResult;
 import com.bookkeeping.pojo.UserInfo;
 
@@ -20,6 +22,14 @@ public interface UserService {
 	public JSONResult userRedister(UserInfo user);
 	
 	// 用户登陆
-	public JSONResult userLogin(HttpServletRequest request, String userAccount, String userPassword);
+	public JSONResult userLogin(@Param("request") HttpServletRequest request, 
+			@Param("userAccount")String userAccount, 
+			@Param("userPassword")String userPassword);
 	
+	// 保存记账记录
+	public JSONResult saveBookkeeping(@Param("request")HttpServletRequest request,
+			@Param("date")String date,
+			@Param("time")String time,
+			@Param("cost")String cost,
+			@Param("type")String type);
 }

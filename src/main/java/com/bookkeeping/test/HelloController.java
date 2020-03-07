@@ -89,7 +89,7 @@ public class HelloController {
 		
 		WXSessionModel getModel = JsonUtils.jsonToPojo(myRedis.get("userLoginMsg:userId"), WXSessionModel.class);
 		
-		return JSONResult.ok(getModel);
+		return JSONResult.ok("", getModel);
 		
 	}
 

@@ -32,7 +32,7 @@ public class WXRegisterController {
 			String account,
 			String password) {
 		
-		System.out.println(netName + "\n" + name + "\n" + telephone + "\n" + account + "\n" + password + "\n");
+		//System.out.println(netName + "\n" + name + "\n" + telephone + "\n" + account + "\n" + password + "\n");
 
 		UserInfo user = new UserInfo();
 		user.setName(name);

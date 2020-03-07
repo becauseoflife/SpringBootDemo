@@ -38,14 +38,17 @@ public class UserOperInterceptor implements HandlerInterceptor{
 		 */
 		// 判断是否已经登录 获取传过来的sessionId
 		String resSessionId = request.getHeader("sessionId");
-		System.out.println("获取的sessionId:" + resSessionId);
+		if (resSessionId == null || resSessionId.equals("")) {
+			returnErrorResponse(response, JSONResult.errorMsg("sessionId为空"));
+			return false;
+		}
+		//System.out.println("获取的sessionId:" + resSessionId);
 		
 		//从redis缓存中读出数据
-		String userAccount = request.getParameter("account");
-		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("user-redis-session:" + userAccount), WXSessionModel.class);
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + resSessionId), WXSessionModel.class);
 		
 		if (model != null) {
-			System.out.println("redis的sessionId:" + model.getSessionId());
+			//System.out.println("redis的sessionId:" + model.getSessionId());
 			
 			// sessionId相等，则放行  不相等则返回错误信息
 			if (resSessionId.equals(model.getSessionId())) {
