@@ -1,8 +1,11 @@
 package com.bookkeeping.mapper;
 
+
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import com.bookkeeping.pojo.UserRecord;
 import com.bookkeeping.utils.MyMapper;
@@ -35,21 +38,60 @@ public interface UserRecordMapper extends MyMapper<UserRecord> {
 	 * @param tableName
 	 * @param userRecord
 	 */
-	/*
-	 * public void insertRecord(
-	 * 
-	 * @Param("tableName")String tableName,
-	 * 
-	 * @Param("id")String id,
-	 * 
-	 * @Param("date")Date date,
-	 * 
-	 * @Param("cost")String cost,
-	 * 
-	 * @Param("type")String type );
-	 */
 	public void insertRecord(
 			@Param("tableName")String tableName,
 			@Param("userRecord")UserRecord userRecord
 		); 
+	
+	/**
+	 * 查找年消费值
+	 * @param tableName
+	 * @param fieldName
+	 * @param fieldValue
+	 * @return
+	 */
+	public List<String> queryYearCost(
+			@Param("tableName")String tableName,
+			@Param("yearFieldName")String yearFieldName,
+			@Param("yearFieldValue")String yearFieldValue
+		);
+	
+	/**
+	 * 查找月消费值
+	 * @param tableName
+	 * @param yearFieldName
+	 * @param yearFieldValue
+	 * @param monthFieldName
+	 * @param monthFieldValue
+	 * @return
+	 */
+	public List<String> queryMonthCost(
+			@Param("tableName")String tableName,
+			@Param("yearFieldName")String yearFieldName,
+			@Param("yearFieldValue")String yearFieldValue,
+			@Param("monthFieldName")String monthFieldName,
+			@Param("monthFieldValue")String monthFieldValue
+		);
+	
+	/**
+	 * 查找日消费值
+	 * @param tableName
+	 * @param yearFieldName
+	 * @param yearFieldValue
+	 * @param monthFieldName
+	 * @param monthFieldValue
+	 * @param todayFieldName
+	 * @param todayFieldValue
+	 * @return
+	 */
+	public List<String> queryTodayCost(
+			@Param("tableName")String tableName,
+			@Param("yearFieldName")String yearFieldName,
+			@Param("yearFieldValue")String yearFieldValue,
+			@Param("monthFieldName")String monthFieldName,
+			@Param("monthFieldValue")String monthFieldValue,
+			@Param("todayFieldName")String todayFieldName,
+			@Param("todayFieldValue")String todayFieldValue
+		);
+	
 }

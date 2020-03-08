@@ -5,6 +5,9 @@
   <resultMap id="BaseResultMap" type="com.bookkeeping.pojo.UserRecord">
   
     <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="year" jdbcType="CHAR" property="year" />
+    <result column="month" jdbcType="CHAR" property="month" />
+    <result column="day" jdbcType="CHAR" property="day" />
     <result column="date" jdbcType="DATE" property="date" />
     <result column="cost" jdbcType="VARCHAR" property="cost" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -26,11 +29,14 @@
   <!-- 创建表 -->
   <update id="createTable" parameterType="String">  
 		CREATE TABLE ${tableName} (
-		  `id` VARCHAR(30) NOT NULL COMMENT 'id',
-		  `date` DATETIME NOT NULL COMMENT '时间',
-		  `cost` VARCHAR(5) NOT NULL COMMENT '花费',
-		  `type` VARCHAR(5) NOT NULL COMMENT '种类'	
-		  );
+		  `id` CHAR(20) NOT NULL COMMENT 'id',
+		  `year` CHAR(4) NOT NULL COMMENT '年份',
+		  `month` CHAR(2) NOT NULL COMMENT '月份',
+		  `day` CHAR(2) NOT NULL COMMENT '日',
+		  `date` DATETIME NOT NULL COMMENT '日期时间',
+		  `cost` CHAR(10) NOT NULL COMMENT '花费',
+		  `type` CHAR(5) NOT NULL COMMENT '种类'
+		);
   </update> 
   
   <!-- 保存记录 -->
@@ -67,8 +73,51 @@
   </insert> -->
   
   <insert id="insertRecord"  parameterType="com.bookkeeping.pojo.UserRecord">
-  		insert into ${tableName} (id, date, cost, type) value (#{userRecord.id}, #{userRecord.date}, #{userRecord.cost}, #{userRecord.type});
+  		insert into ${tableName} 
+  			(	id, year, month, day, date, cost, type) 
+  		value 
+  			(	#{userRecord.id},
+  				#{userRecord.year},
+  				#{userRecord.month},
+  				#{userRecord.day},
+  			 	#{userRecord.date},
+  			 	#{userRecord.cost},
+  			    #{userRecord.type}
+  			 );
   </insert>
   
+  <!-- 查找消费记录 -->
+  <select id="queryYearCost" resultType="String" statementType="STATEMENT">
+  		select
+  			cost
+  		from
+  		 	${tableName}
+  		where 
+  			${yearFieldName} = '${yearFieldValue}'
+  </select>
+  
+   <select id="queryMonthCost" resultType="String" statementType="STATEMENT">
+  		select
+  			cost
+  		from
+  		 	${tableName}
+  		where 
+  			${yearFieldName} = '${yearFieldValue}' 
+  		and 
+  			${monthFieldName} = '${monthFieldValue}' 
+  </select>
+
+  <select id="queryTodayCost" resultType="String" statementType="STATEMENT">
+  		select
+  			cost
+  		from
+  		 	${tableName}
+  		where 
+  			${yearFieldName} = '${yearFieldValue}' 
+  		and 
+  			${monthFieldName} = '${monthFieldValue}' 
+  		and 
+  			${todayFieldName} = '${todayFieldValue}' 
+  </select>
   
 </mapper>

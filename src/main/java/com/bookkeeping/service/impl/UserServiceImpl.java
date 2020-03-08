@@ -1,6 +1,8 @@
 package com.bookkeeping.service.impl;
 
 import java.util.Date;
+import java.util.List;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bookkeeping.appdata.entity.HomePageData;
+import com.bookkeeping.appdata.processing.ProcessingData;
 import com.bookkeeping.mapper.UserInfoMapper;
 import com.bookkeeping.mapper.UserInfoMapperCustom;
 import com.bookkeeping.mapper.UserRecordMapper;
@@ -39,6 +43,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private RedisOperator redisOper;		// 对Redis的操作
+	
+	@Autowired
+	private ProcessingData getReturnData;	// 获取返回的数据
 
 	/*
 	 * @Override
@@ -156,17 +163,76 @@ public class UserServiceImpl implements UserService{
 			e.printStackTrace();
 		}
 		
+		String year = String.format("%tY", dateTime);
+		String month = String.format("%tm", dateTime);
+		String day = String.format("%td", dateTime);
+		
+		//System.out.println("year: " + year + " month:" + month + " day:" + day);
+		
 		// 创建一条记录
-		UserRecord msg = new UserRecord();
-		msg.setId(model.getUserId());
-		msg.setDate(dateTime);
-		msg.setCost(cost);
-		msg.setType(type);
+		UserRecord record = new UserRecord();
+		record.setId(model.getUserId());
+		record.setYear(year);
+		record.setMonth(month);
+		record.setDay(day);
+		record.setDate(dateTime);
+		record.setCost(cost);
+		record.setType(type);
 		
 		// 插入数据库
-		userRecordMapper.insertRecord(model.getUserId(), msg);
+		userRecordMapper.insertRecord(model.getUserId(), record);
 		
 		return JSONResult.ok("保存成功");
+	}
+
+	
+	// 获取首页数据
+	@Override
+	public JSONResult getHomePageData(HttpServletRequest request) {
+		
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String tableName = model.getUserId();
+		
+		Date nowDate = new Date();
+		String nowYear = String.format("%tY", nowDate);
+		String nowMonth = String.format("%tm", nowDate);
+		String nowToday = String.format("%td", nowDate);
+		System.out.println("year: " + nowYear + " month: " + nowMonth + " day:" + nowToday);
+		
+		List<String> yearCostList = userRecordMapper.queryYearCost(tableName, "year", nowYear);
+		List<String> monthCostList = userRecordMapper.queryMonthCost(tableName, "year", nowYear, "month", nowMonth);
+		List<String> todayCostList = userRecordMapper.queryTodayCost(tableName, "year", nowYear, "month", nowMonth, "day", nowToday);
+		
+		// 默认值为0
+		Double yearCost = 0.00;
+		Double monthCost = 0.00;
+		Double todayCost = 0.00;
+		
+		for (String cost:yearCostList) {
+			yearCost += Double.parseDouble(cost);
+		}
+		for (String cost:monthCostList) {
+			monthCost += Double.parseDouble(cost);
+		}
+		for (String cost:todayCostList) {
+			todayCost += Double.parseDouble(cost);
+		}
+		
+		System.out.println("yearCost:" + yearCost + " monthCost:" + monthCost + " dayCost:" + todayCost);
+		
+		// 保留小数点后两位数
+		DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+		//String str = df.format(yearCost);
+		
+		// 封装数据
+		HomePageData data = new HomePageData();
+		data.setYearCost(df.format(yearCost));
+		data.setMonthCost(df.format(monthCost));
+		data.setTodayCost(df.format(todayCost));
+		
+		return JSONResult.ok("获取成功", data);
 	}
 
 }

@@ -33,6 +33,8 @@ public class JSONResult {
 	    // 响应中的数据
 	    private Object data;
 	    
+	    private Object addData;
+	    
 	    private String ok;	// 不使用
 
 	    public static JSONResult build(Integer status, String msg, Object data) {
@@ -49,6 +51,10 @@ public class JSONResult {
 
 	    public static JSONResult ok() {
 	        return new JSONResult(null);
+	    }
+	    
+	    public static JSONResult okAddData(String msg, Object data, Object addData) {
+	    	return new JSONResult(msg, data, addData);
 	    }
 	    
 	    public static JSONResult errorMsg(String msg) {
@@ -97,6 +103,13 @@ public class JSONResult {
 	    public Boolean isOK() {
 	        return this.status == 200;
 	    }
+	    
+	    public JSONResult(String msg, Object data, Object addData) {
+	    	this.status = 200;
+	    	this.msg = msg;
+	    	this.data = data;
+	    	this.addData = addData;
+	    }
 
 	    public Integer getStatus() {
 	        return status;
@@ -121,4 +134,13 @@ public class JSONResult {
 	    public void setData(Object data) {
 	        this.data = data;
 	    }
+
+		public Object getAddData() {
+			return addData;
+		}
+
+		public void setAddData(Object addData) {
+			this.addData = addData;
+		}
+		
 }

@@ -22,14 +22,21 @@ public interface UserService {
 	public JSONResult userRedister(UserInfo user);
 	
 	// 用户登陆
-	public JSONResult userLogin(@Param("request") HttpServletRequest request, 
+	public JSONResult userLogin(
+			@Param("request") HttpServletRequest request, 
 			@Param("userAccount")String userAccount, 
 			@Param("userPassword")String userPassword);
 	
 	// 保存记账记录
-	public JSONResult saveBookkeeping(@Param("request")HttpServletRequest request,
+	public JSONResult saveBookkeeping(
+			@Param("request")HttpServletRequest request,
 			@Param("date")String date,
 			@Param("time")String time,
 			@Param("cost")String cost,
 			@Param("type")String type);
+	
+	// 获取首页的数据
+	public JSONResult getHomePageData(
+			@Param("request")HttpServletRequest request
+			);
 }

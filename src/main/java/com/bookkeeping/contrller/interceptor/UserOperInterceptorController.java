@@ -17,13 +17,18 @@ public class UserOperInterceptorController {
 	private UserService userService;
 	
 	@RequestMapping("/saveBookkeeping")
-	public JSONResult test(HttpServletRequest request ,String date, String time, String cost, String type) {
+	public JSONResult saveBookkeeping(HttpServletRequest request, String date, String time, String cost, String type) {
 		
 		//System.out.println("date:" + date + " time:" + time + " cost:" + cost + " type:" + type);
 		
 		return userService.saveBookkeeping(request, date, time, cost, type);
 	}
 	
+	@RequestMapping("/getHomePageData")
+	public JSONResult getHomePageData(HttpServletRequest request) {
+		
+		return userService.getHomePageData(request);
+	}
 	
 	
 	
