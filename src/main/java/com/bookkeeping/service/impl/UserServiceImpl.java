@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bookkeeping.appdata.entity.HomePageData;
+import com.bookkeeping.appdata.entity.RecordData;
 import com.bookkeeping.appdata.processing.ProcessingData;
 import com.bookkeeping.mapper.UserInfoMapper;
 import com.bookkeeping.mapper.UserInfoMapperCustom;
@@ -220,7 +221,7 @@ public class UserServiceImpl implements UserService{
 			todayCost += Double.parseDouble(cost);
 		}
 		
-		System.out.println("yearCost:" + yearCost + " monthCost:" + monthCost + " dayCost:" + todayCost);
+		//System.out.println("yearCost:" + yearCost + " monthCost:" + monthCost + " dayCost:" + todayCost);
 		
 		// 保留小数点后两位数
 		DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
@@ -233,6 +234,25 @@ public class UserServiceImpl implements UserService{
 		data.setTodayCost(df.format(todayCost));
 		
 		return JSONResult.ok("获取成功", data);
+	}
+
+	// 获取记账记录
+	@Override
+	public JSONResult getRecords(HttpServletRequest request) {
+
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String tableName = model.getUserId();
+		
+		List<RecordData> recordList = userRecordMapper.queryRecords(tableName);
+		
+		/*
+		 * for(RecordData r:recordList) { System.out.println(r.getDate() + " " +
+		 * r.getCost() + " " + r.getType()); }
+		 */
+		
+		return JSONResult.ok("获取成功", recordList);
 	}
 
 }

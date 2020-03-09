@@ -86,7 +86,7 @@
   			 );
   </insert>
   
-  <!-- 查找消费记录 -->
+  <!-- 查找年花费 -->
   <select id="queryYearCost" resultType="String" statementType="STATEMENT">
   		select
   			cost
@@ -96,6 +96,7 @@
   			${yearFieldName} = '${yearFieldValue}'
   </select>
   
+  <!-- 查找月花费 -->
    <select id="queryMonthCost" resultType="String" statementType="STATEMENT">
   		select
   			cost
@@ -107,6 +108,7 @@
   			${monthFieldName} = '${monthFieldValue}' 
   </select>
 
+  <!-- 查找日花费 -->
   <select id="queryTodayCost" resultType="String" statementType="STATEMENT">
   		select
   			cost
@@ -118,6 +120,14 @@
   			${monthFieldName} = '${monthFieldValue}' 
   		and 
   			${todayFieldName} = '${todayFieldValue}' 
+  </select>
+  
+  <!-- 查找历史记录 -->
+  <select id="queryRecords" resultType="com.bookkeeping.appdata.entity.RecordData" parameterType="String">
+  		select
+  			date, cost, type
+  		from
+  			${tableName}
   </select>
   
 </mapper>

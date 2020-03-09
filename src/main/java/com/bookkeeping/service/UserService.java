@@ -39,4 +39,9 @@ public interface UserService {
 	public JSONResult getHomePageData(
 			@Param("request")HttpServletRequest request
 			);
+	
+	// 获取历史数据
+	public JSONResult getRecords(HttpServletRequest request);
+	
+	
 }

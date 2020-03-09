@@ -30,6 +30,10 @@ public class UserOperInterceptorController {
 		return userService.getHomePageData(request);
 	}
 	
-	
+	@RequestMapping("/getRecord")
+	public JSONResult getRecord(HttpServletRequest request) {
+		
+		return userService.getRecords(request);
+	}
 	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import com.bookkeeping.appdata.entity.RecordData;
 import com.bookkeeping.pojo.UserRecord;
 import com.bookkeeping.utils.MyMapper;
 
@@ -93,5 +94,13 @@ public interface UserRecordMapper extends MyMapper<UserRecord> {
 			@Param("todayFieldName")String todayFieldName,
 			@Param("todayFieldValue")String todayFieldValue
 		);
+	
+	/**
+	 * 查找历史记录
+	 * @param tableName
+	 * @return
+	 */
+	public List<RecordData> queryRecords(@Param("tableName")String tableName);
+	
 	
 }
