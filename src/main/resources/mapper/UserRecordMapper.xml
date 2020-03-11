@@ -130,4 +130,20 @@
   			${tableName}
   </select>
   
+  <!-- 统计类型的数量 -->
+  <select id="queryTypeSum" resultType="com.bookkeeping.appdata.entity.PieChartSeries" parameterType="java.util.ArrayList">
+  		select
+  			type as name, count(*) as data
+  		from
+  			${tableName}
+  		where
+  			type
+  		IN
+		 	<foreach collection="typeArray" item="item" open="(" separator="," close=")" >
+		 		#{item}
+		 	</foreach>
+  		GROUP BY
+  			type;
+  </select>
+  
 </mapper>

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bookkeeping.appdata.entity.HomePageData;
+import com.bookkeeping.appdata.entity.PieChartSeries;
 import com.bookkeeping.appdata.entity.RecordData;
 import com.bookkeeping.appdata.processing.ProcessingData;
 import com.bookkeeping.mapper.UserInfoMapper;
@@ -200,7 +201,7 @@ public class UserServiceImpl implements UserService{
 		String nowYear = String.format("%tY", nowDate);
 		String nowMonth = String.format("%tm", nowDate);
 		String nowToday = String.format("%td", nowDate);
-		System.out.println("year: " + nowYear + " month: " + nowMonth + " day:" + nowToday);
+		//System.out.println("year: " + nowYear + " month: " + nowMonth + " day:" + nowToday);
 		
 		List<String> yearCostList = userRecordMapper.queryYearCost(tableName, "year", nowYear);
 		List<String> monthCostList = userRecordMapper.queryMonthCost(tableName, "year", nowYear, "month", nowMonth);
@@ -253,6 +254,24 @@ public class UserServiceImpl implements UserService{
 		 */
 		
 		return JSONResult.ok("获取成功", recordList);
+	}
+
+	// 获取饼状图数据
+	@Override
+	public JSONResult getPieChartData(HttpServletRequest request, String[] typeArray) {
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String tableName = model.getUserId();
+		
+		List<PieChartSeries> seriesList = userRecordMapper.queryTypeSum(tableName, typeArray);
+		
+		
+		for(PieChartSeries pcs:seriesList) {
+			System.out.println(pcs.getName() + "  " + pcs.getData());
+		}
+		
+		return JSONResult.ok("获取成功", seriesList);
 	}
 
 }

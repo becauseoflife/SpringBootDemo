@@ -33,7 +33,7 @@ public class JSONResult {
 	    // 响应中的数据
 	    private Object data;
 	    
-	    private Object addData;
+	    //private Object addData;
 	    
 	    private String ok;	// 不使用
 
@@ -53,9 +53,10 @@ public class JSONResult {
 	        return new JSONResult(null);
 	    }
 	    
-	    public static JSONResult okAddData(String msg, Object data, Object addData) {
-	    	return new JSONResult(msg, data, addData);
-	    }
+	/*
+	 * public static JSONResult okAddData(String msg, Object data, Object addData) {
+	 * return new JSONResult(msg, data, addData); }
+	 */
 	    
 	    public static JSONResult errorMsg(String msg) {
 	        return new JSONResult(500, msg, null);
@@ -104,12 +105,10 @@ public class JSONResult {
 	        return this.status == 200;
 	    }
 	    
-	    public JSONResult(String msg, Object data, Object addData) {
-	    	this.status = 200;
-	    	this.msg = msg;
-	    	this.data = data;
-	    	this.addData = addData;
-	    }
+	/*
+	 * public JSONResult(String msg, Object data, Object addData) { this.status =
+	 * 200; this.msg = msg; this.data = data; this.addData = addData; }
+	 */
 
 	    public Integer getStatus() {
 	        return status;
@@ -135,12 +134,10 @@ public class JSONResult {
 	        this.data = data;
 	    }
 
-		public Object getAddData() {
-			return addData;
-		}
-
-		public void setAddData(Object addData) {
-			this.addData = addData;
-		}
+	/*
+	 * public Object getAddData() { return addData; }
+	 * 
+	 * public void setAddData(Object addData) { this.addData = addData; }
+	 */
 		
 }

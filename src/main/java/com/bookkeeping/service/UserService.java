@@ -41,7 +41,12 @@ public interface UserService {
 			);
 	
 	// 获取历史数据
-	public JSONResult getRecords(HttpServletRequest request);
+	public JSONResult getRecords(@Param("request")HttpServletRequest request);
 	
+	// 获取饼状图的数据
+	public JSONResult getPieChartData(
+			@Param("request")HttpServletRequest request, 
+			@Param("typeArray")String[] typeArray
+			);
 	
 }

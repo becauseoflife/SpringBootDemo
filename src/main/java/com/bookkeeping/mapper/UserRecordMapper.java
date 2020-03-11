@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import com.bookkeeping.appdata.entity.PieChartSeries;
 import com.bookkeeping.appdata.entity.RecordData;
 import com.bookkeeping.pojo.UserRecord;
 import com.bookkeeping.utils.MyMapper;
@@ -101,6 +102,17 @@ public interface UserRecordMapper extends MyMapper<UserRecord> {
 	 * @return
 	 */
 	public List<RecordData> queryRecords(@Param("tableName")String tableName);
+	
+	/**
+	 * 统计类型的数量
+	 * @return
+	 */
+	public List<PieChartSeries> queryTypeSum(
+			@Param("tableName")String tableName,
+			@Param("typeArray")String[] typeArray
+			);
+	
+	
 	
 	
 }
