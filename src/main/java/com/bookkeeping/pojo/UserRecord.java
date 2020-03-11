@@ -11,6 +11,7 @@ public class UserRecord {
 	private Date date;				// 日期时间
 	private String cost;			// 花费金额
 	private String type;			// 种类
+	private String imgPath;			// 种类对应的图标
 	
 	
 	public String getId() {
@@ -55,5 +56,11 @@ public class UserRecord {
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	public String getImgPath() {
+		return imgPath;
+	}
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+	
 }

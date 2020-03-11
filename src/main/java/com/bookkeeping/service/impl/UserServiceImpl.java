@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public JSONResult saveBookkeeping(HttpServletRequest request, String date, String time, String cost, String type) {
+	public JSONResult saveBookkeeping(HttpServletRequest request, String date, String time, String cost, String type, String imgPath) {
 
 		// 获取session中的信息
 		String sessionId = request.getHeader("sessionId");
@@ -180,6 +180,7 @@ public class UserServiceImpl implements UserService{
 		record.setDate(dateTime);
 		record.setCost(cost);
 		record.setType(type);
+		record.setImgPath(imgPath);
 		
 		// 插入数据库
 		userRecordMapper.insertRecord(model.getUserId(), record);

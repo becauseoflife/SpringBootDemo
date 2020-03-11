@@ -22,11 +22,11 @@ public class UserOperInterceptorController {
 	private UserService userService;
 	
 	@RequestMapping("/saveBookkeeping")
-	public JSONResult saveBookkeeping(HttpServletRequest request, String date, String time, String cost, String type) {
+	public JSONResult saveBookkeeping(HttpServletRequest request, String date, String time, String cost, String type, String imgPath) {
 		
 		//System.out.println("date:" + date + " time:" + time + " cost:" + cost + " type:" + type);
 		
-		return userService.saveBookkeeping(request, date, time, cost, type);
+		return userService.saveBookkeeping(request, date, time, cost, type, imgPath);
 	}
 	
 	@RequestMapping("/getHomePageData")

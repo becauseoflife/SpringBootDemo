@@ -4,13 +4,14 @@
 
   <resultMap id="BaseResultMap" type="com.bookkeeping.pojo.UserRecord">
   
-    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="id" jdbcType="CHAR" property="id" />
     <result column="year" jdbcType="CHAR" property="year" />
     <result column="month" jdbcType="CHAR" property="month" />
     <result column="day" jdbcType="CHAR" property="day" />
     <result column="date" jdbcType="DATE" property="date" />
-    <result column="cost" jdbcType="VARCHAR" property="cost" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="cost" jdbcType="CHAR" property="cost" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="img_path" jdbcType="CHAR" property="imgPath"/>
     
   </resultMap>
   
@@ -35,7 +36,8 @@
 		  `day` CHAR(2) NOT NULL COMMENT '日',
 		  `date` DATETIME NOT NULL COMMENT '日期时间',
 		  `cost` CHAR(10) NOT NULL COMMENT '花费',
-		  `type` CHAR(5) NOT NULL COMMENT '种类'
+		  `type` CHAR(5) NOT NULL COMMENT '种类',
+		  `img_path` CHAR(30) NOT NULL COMMENT '种类图标'
 		);
   </update> 
   
@@ -74,7 +76,7 @@
   
   <insert id="insertRecord"  parameterType="com.bookkeeping.pojo.UserRecord">
   		insert into ${tableName} 
-  			(	id, year, month, day, date, cost, type) 
+  			(	id, year, month, day, date, cost, type, img_path) 
   		value 
   			(	#{userRecord.id},
   				#{userRecord.year},
@@ -82,7 +84,8 @@
   				#{userRecord.day},
   			 	#{userRecord.date},
   			 	#{userRecord.cost},
-  			    #{userRecord.type}
+  			    #{userRecord.type},
+  			    #{userRecord.imgPath}
   			 );
   </insert>
   
@@ -125,7 +128,7 @@
   <!-- 查找历史记录 -->
   <select id="queryRecords" resultType="com.bookkeeping.appdata.entity.RecordData" parameterType="String">
   		select
-  			date, cost, type
+  			date, cost, type, img_path
   		from
   			${tableName}
   </select>

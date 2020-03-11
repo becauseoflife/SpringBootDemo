@@ -33,7 +33,8 @@ public interface UserService {
 			@Param("date")String date,
 			@Param("time")String time,
 			@Param("cost")String cost,
-			@Param("type")String type);
+			@Param("type")String type,
+			@Param("imgPath")String imgPath);
 	
 	// 获取首页的数据
 	public JSONResult getHomePageData(

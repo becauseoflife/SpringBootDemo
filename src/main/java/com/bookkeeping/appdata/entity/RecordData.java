@@ -13,6 +13,8 @@ public class RecordData {
 	private String cost;	// 花费
 	
 	private String type;	// 种类
+	
+	private String imgPath;	// 种类的图标路径
 
 	
 	public Date getDate() {
@@ -37,6 +39,14 @@ public class RecordData {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
 	}
 	
 }
