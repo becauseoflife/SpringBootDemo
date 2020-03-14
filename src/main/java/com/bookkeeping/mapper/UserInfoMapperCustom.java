@@ -12,4 +12,6 @@ public interface UserInfoMapperCustom {
 	// 通过用户账号查找用户
 	public UserInfo queryUserByAccount(@Param("account")String account);
 	
+	// 保存用户的心愿存钱
+	public void updateByUserId(@Param("userId")String userId, @Param("wishMoney")String wishMoney);
 }

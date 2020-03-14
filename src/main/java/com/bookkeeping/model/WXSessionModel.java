@@ -5,6 +5,7 @@ public class WXSessionModel {
 	private String sessionId;		// sessionId 
 	private int expiredTime;		// 缓存存在时间
 	private String userId;			// 用户id
+	private String userNetName;		// 用户昵称
 	private String userAccount;		// 用户账号
 	private String userPassword;	// 用户密码
 	
@@ -19,6 +20,12 @@ public class WXSessionModel {
 	}
 	public void setExpiredTime(int expiredTime) {
 		this.expiredTime = expiredTime;
+	}
+	public String getUserNetName() {
+		return userNetName;
+	}
+	public void setUserNetName(String userNetName) {
+		this.userNetName = userNetName;
 	}
 	public String getUserId() {
 		return userId;

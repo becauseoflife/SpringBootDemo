@@ -42,13 +42,21 @@ public class UserOperInterceptorController {
 	}
 	
 	@RequestMapping("/getPieChartsData")
-	public JSONResult getPieChartsData(HttpServletRequest request,String[] typeArray) {
+	public JSONResult getPieChartsData(HttpServletRequest request, String[] typeArray) {
 	
 		/*
 		 * for (String type:typeArray) { System.out.println(type); }
 		 */
 
 		return userService.getPieChartData(request, typeArray);
+	}
+	
+	@RequestMapping("/saveWishMoney")
+	public JSONResult saveWhisMoney(HttpServletRequest request, String wishMoney) {
+		
+		System.out.println(wishMoney);
+		
+		return userService.saveWishMoney(request, wishMoney);
 	}
 	
 }

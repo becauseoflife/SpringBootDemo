@@ -50,4 +50,9 @@ public interface UserService {
 			@Param("typeArray")String[] typeArray
 			);
 	
+	// 保存心愿存钱
+	public JSONResult saveWishMoney(
+			@Param("request")HttpServletRequest request, 
+			@Param("wishMoney")String wishMoney
+			);
 }

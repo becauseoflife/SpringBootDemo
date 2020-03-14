@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookkeeping.mapper.UserInfoMapperCustom">
 
+	<!-- 通过用户id查询用户信息 -->
 	<select id="queryUserById" resultType="com.bookkeeping.pojo.UserInfo" parameterType="java.lang.String">
 		select
 			*
@@ -11,6 +12,7 @@
 			id = #{id, jdbcType=VARCHAR}
 	</select>
 
+	<!-- 通过用户账号查询用户信息 -->
 	<select id="queryUserByAccount" resultType="com.bookkeeping.pojo.UserInfo" parameterType="java.lang.String">
   		select
   			* 
@@ -19,5 +21,14 @@
   		where
   			account = #{account, jdbcType=CHAR}
 	</select>
+	
+	<update id="updateByUserId" parameterType="java.lang.String">
+		update 
+			user_info
+		set
+			hope_save = #{wishMoney}
+		where
+			id = #{userId}  
+	</update>
 
 </mapper>

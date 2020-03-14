@@ -32,7 +32,7 @@ import com.bookkeeping.utils.RedisOperator;
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
-	private UserInfoMapper userMapper;		// 数据库对表user_info的操作
+	private UserInfoMapper userInfoMapper;		// 数据库对表user_info的操作
 	
 	@Autowired
 	private UserRecordMapper userRecordMapper;	// 保存用户记录
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService{
 	private Sid sid;		// id生成器
 	
 	@Autowired
-	private UserInfoMapperCustom customMapper;	// 通过某个字段查询用户信息（UserInfo.java）
+	private UserInfoMapperCustom userInfoCustomMapper;	// 通过某个字段查询用户信息（UserInfo.java）
 	
 	@Autowired
 	private RedisOperator redisOper;		// 对Redis的操作
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional(propagation = Propagation.REQUIRED)		// 事务的回滚
 	public JSONResult userRedister(UserInfo user) {
 		
-		UserInfo getUser = customMapper.queryUserByAccount(user.getAccount());
+		UserInfo getUser = userInfoCustomMapper.queryUserByAccount(user.getAccount());
 		
 		// 检查用户是否存在
 		try {
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService{
 				 * }else { System.out.println("创建失败"); }
 				 */
 				
-				userMapper.insert(user);
+				userInfoMapper.insert(user);
 				
 				return JSONResult.ok("注册成功");
 			}
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		// 检车账号是否存在
 		UserInfo user = new UserInfo();
-		user = customMapper.queryUserByAccount(userAccount);
+		user = userInfoCustomMapper.queryUserByAccount(userAccount);
 		if(user == null) {
 			return JSONResult.errorMsg("账号不存在，请先注册");
 		}else {
@@ -132,6 +132,7 @@ public class UserServiceImpl implements UserService{
 				WXSessionModel model = new WXSessionModel();
 				model.setSessionId(sessionId);
 				model.setExpiredTime(1 * 60 * 60 * 1000);
+				model.setUserNetName(user.getNetname());
 				model.setUserId(user.getId());
 				model.setUserAccount(user.getAccount());
 				model.setUserPassword(user.getPassword());
@@ -274,5 +275,21 @@ public class UserServiceImpl implements UserService{
 		
 		return JSONResult.ok("获取成功", seriesList);
 	}
+
+	// 保存心愿存钱
+	@Override
+	public JSONResult saveWishMoney(HttpServletRequest request, String wishMoney) {
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String userId = model.getUserId();
+		String userAccount = model.getUserAccount();
+		
+		userInfoCustomMapper.updateByUserId(userId, wishMoney);
+		
+		return JSONResult.ok("保存成功");
+	}
+	
+	
 
 }
