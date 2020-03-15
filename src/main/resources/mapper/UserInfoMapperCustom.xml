@@ -22,11 +22,22 @@
   			account = #{account, jdbcType=CHAR}
 	</select>
 	
+	<!-- 保存心愿存钱 -->
 	<update id="updateByUserId" parameterType="java.lang.String">
 		update 
 			user_info
 		set
 			hope_save = #{wishMoney}
+		where
+			id = #{userId}  
+	</update>
+	
+	<!-- 修改密码 -->
+	<update id="updatePassword" parameterType="java.lang.String">
+		update 
+			user_info
+		set
+			password = #{newPwd}
 		where
 			id = #{userId}  
 	</update>

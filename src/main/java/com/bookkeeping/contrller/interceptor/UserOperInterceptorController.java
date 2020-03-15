@@ -54,9 +54,17 @@ public class UserOperInterceptorController {
 	@RequestMapping("/saveWishMoney")
 	public JSONResult saveWhisMoney(HttpServletRequest request, String wishMoney) {
 		
-		System.out.println(wishMoney);
+		//System.out.println(wishMoney);
 		
 		return userService.saveWishMoney(request, wishMoney);
+	}
+	
+	@RequestMapping("/changePassword")
+	public JSONResult changePwd(HttpServletRequest request, String oldPwd, String newPwd) {
+		
+		//System.out.println(oldPwd + "  " + newPwd);
+		
+		return userService.changePwd(request, oldPwd, newPwd);
 	}
 	
 }

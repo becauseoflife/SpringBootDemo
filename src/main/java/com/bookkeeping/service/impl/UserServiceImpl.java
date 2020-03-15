@@ -49,25 +49,6 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private ProcessingData getReturnData;	// 获取返回的数据
 
-	/*
-	 * @Override
-	 * 
-	 * @Transactional(propagation = Propagation.REQUIRED) // 事务的回滚 public void
-	 * saveUser(UserInfo user) throws Exception { // TODO Auto-generated method stub
-	 * userMapper.insert(user); }
-	 * 
-	 * @Override
-	 * 
-	 * @Transactional(propagation = Propagation.REQUIRED) public void
-	 * updateUser(UserInfo user) { // TODO Auto-generated method stub
-	 * userMapper.updateByPrimaryKey(user); }
-	 * 
-	 * @Override
-	 * 
-	 * @Transactional(propagation = Propagation.SUPPORTS) public UserInfo
-	 * queryUserByAccount(String userAccount) { // TODO Auto-generated method stub
-	 * return userMapper.selectByPrimaryKey(userAccount); }
-	 */
 
 	// 用户注册
 	@Override
@@ -288,6 +269,29 @@ public class UserServiceImpl implements UserService{
 		userInfoCustomMapper.updateByUserId(userId, wishMoney);
 		
 		return JSONResult.ok("保存成功");
+	}
+
+	// 修改密码
+	@Override
+	public JSONResult changePwd(HttpServletRequest request, String oldPwd, String newPwd) {
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String userId = model.getUserId();
+		String userPwd = model.getUserPassword();
+		
+		if(!oldPwd.equals(userPwd)) {
+			return JSONResult.errorMsg("原密码输入错误");
+		}else {
+			userInfoCustomMapper.updatePassword(userId, newPwd);
+			
+			// 修改缓存中的session信息
+			model.setUserPassword(newPwd);
+			redisOper.set("wxlogin-user-session:" + sessionId, JsonUtils.objectToJson(model), model.getExpiredTime());
+			
+			return JSONResult.ok("修改成功");
+		}
+
 	}
 	
 	

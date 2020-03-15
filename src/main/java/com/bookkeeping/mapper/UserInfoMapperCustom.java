@@ -14,4 +14,7 @@ public interface UserInfoMapperCustom {
 	
 	// 保存用户的心愿存钱
 	public void updateByUserId(@Param("userId")String userId, @Param("wishMoney")String wishMoney);
+	
+	// 修改密码
+	public void updatePassword(@Param("userId")String userId, @Param("newPwd")String newPwd);
 }

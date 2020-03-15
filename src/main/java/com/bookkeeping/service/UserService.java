@@ -55,4 +55,11 @@ public interface UserService {
 			@Param("request")HttpServletRequest request, 
 			@Param("wishMoney")String wishMoney
 			);
+	
+	// 修改密码
+	public JSONResult changePwd(
+			@Param("request")HttpServletRequest request, 
+			@Param("oldPwd")String oldPwd,
+			@Param("newPwd")String newPwd
+			);
 }
