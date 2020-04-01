@@ -46,55 +46,25 @@ public interface UserRecordMapper extends MyMapper<UserRecord> {
 		); 
 	
 	/**
-	 * 查找年消费值
+	 * 查找年消费
 	 * @param tableName
-	 * @param fieldName
-	 * @param fieldValue
 	 * @return
 	 */
-	public List<String> queryYearCost(
-			@Param("tableName")String tableName,
-			@Param("yearFieldName")String yearFieldName,
-			@Param("yearFieldValue")String yearFieldValue
-		);
+	public String getYearSumCost(@Param("tableName")String tableName);
 	
 	/**
-	 * 查找月消费值
+	 * 获取月消费
 	 * @param tableName
-	 * @param yearFieldName
-	 * @param yearFieldValue
-	 * @param monthFieldName
-	 * @param monthFieldValue
 	 * @return
 	 */
-	public List<String> queryMonthCost(
-			@Param("tableName")String tableName,
-			@Param("yearFieldName")String yearFieldName,
-			@Param("yearFieldValue")String yearFieldValue,
-			@Param("monthFieldName")String monthFieldName,
-			@Param("monthFieldValue")String monthFieldValue
-		);
+	public String getMonthSumCost(@Param("tableName")String tableName);
 	
 	/**
-	 * 查找日消费值
+	 * 获取日消费
 	 * @param tableName
-	 * @param yearFieldName
-	 * @param yearFieldValue
-	 * @param monthFieldName
-	 * @param monthFieldValue
-	 * @param todayFieldName
-	 * @param todayFieldValue
-	 * @return
+	 * @return sum(cost)
 	 */
-	public List<String> queryTodayCost(
-			@Param("tableName")String tableName,
-			@Param("yearFieldName")String yearFieldName,
-			@Param("yearFieldValue")String yearFieldValue,
-			@Param("monthFieldName")String monthFieldName,
-			@Param("monthFieldValue")String monthFieldValue,
-			@Param("todayFieldName")String todayFieldName,
-			@Param("todayFieldValue")String todayFieldValue
-		);
+	public String getDaySumCost(@Param("tableName")String tableName);
 	
 	/**
 	 * 查找历史记录

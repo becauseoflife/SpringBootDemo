@@ -32,5 +32,5 @@ public class HomePageData {
 	public void setYearCost(String yearCost) {
 		this.yearCost = yearCost;
 	}
-	
+
 }

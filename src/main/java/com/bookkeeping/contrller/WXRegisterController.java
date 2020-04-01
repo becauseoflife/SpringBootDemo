@@ -40,9 +40,9 @@ public class WXRegisterController {
 		user.setTelephone(telephone);
 		user.setAccount(account);
 		user.setPassword(password);
-		user.setHopeSave(0.0);
-		user.setWeekMaxCost(0.0);
-		user.setMonthMaxCost(0.0);
+		user.setHopeSave(-1.0);
+		user.setWeekMaxCost(-1.0);
+		user.setMonthMaxCost(-1.0);
 		
 		return service.userRedister(user);
 	}
