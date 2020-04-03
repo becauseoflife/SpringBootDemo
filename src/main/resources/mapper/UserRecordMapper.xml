@@ -135,4 +135,15 @@
   			type;
   </select>
   
+  <!-- 查找本周花费 -->
+  <select id="getWeekCost" resultType="String" parameterType="String" > 
+  		select
+  			sum(cost) 
+  		from 
+  			${tableName}
+  		where 
+  			YEARWEEK(date_format(date,'%Y-%m-%d'), 1) = YEARWEEK(now(), 1);
+  </select>
+  
+  
 </mapper>

@@ -1,5 +1,6 @@
 package com.bookkeeping.appdata.entity;
 
+// 饼状图的数据实体类
 public class PieChartSeries {
 
 	private String name;	// 名字

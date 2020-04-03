@@ -82,7 +82,12 @@ public interface UserRecordMapper extends MyMapper<UserRecord> {
 			@Param("typeArray")String[] typeArray
 			);
 	
-	
+	/**
+	 * 获取本周消费
+	 * @param tableName
+	 * @return
+	 */
+	public String getWeekCost(@Param("tableName")String tableName);
 	
 	
 }

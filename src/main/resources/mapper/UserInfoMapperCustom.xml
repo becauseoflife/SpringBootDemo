@@ -41,5 +41,34 @@
 		where
 			id = #{userId}  
 	</update>
+	
+	<!-- 保存周的最大额度 -->
+	<update id="updateWeekMaxCost">
+		update
+			user_info
+		set
+			week_max_cost = #{weekMaxCost}
+		where
+			id = #{userId}
+	</update>
+	
+	<!-- 保存周的最大额度 -->
+	<update id="updateMonthMaxCost">
+		update
+			user_info
+		set
+			month_max_cost = #{monthMaxCost}
+		where
+			id = #{userId}
+	</update>
 
+	<!-- 获取周的最大额度 -->
+	<select id="queryMaxCost" parameterType="java.lang.String" resultType="com.bookkeeping.appdata.entity.LimitCostData">
+		select
+			week_max_cost, month_max_cost
+		from
+			user_info
+		where
+			id = #{userId}
+	</select>
 </mapper>

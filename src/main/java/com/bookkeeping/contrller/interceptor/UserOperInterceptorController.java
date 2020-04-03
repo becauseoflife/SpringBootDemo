@@ -67,4 +67,23 @@ public class UserOperInterceptorController {
 		return userService.changePwd(request, oldPwd, newPwd);
 	}
 	
+	@RequestMapping("/saveLimitCost")
+	public JSONResult saveLimitCost(HttpServletRequest request, String weekMaxCost, String monthMaxCost) {
+		
+		System.out.println("本周最大花费：" + weekMaxCost + " 本月最大花费：" + monthMaxCost);
+		
+		return userService.saveLimitCost(request, weekMaxCost, monthMaxCost);
+	}
+	
+	@RequestMapping("/getLimitCost")
+	public JSONResult getLimitCost(HttpServletRequest request) {
+		
+		return userService.getLimitCost(request);
+	}
+	
+	@RequestMapping("/getWeekMonthCost")
+	public JSONResult getWeekMonthCost(HttpServletRequest request) {
+		
+		return userService.getWeekMonthCost(request);
+	}
 }

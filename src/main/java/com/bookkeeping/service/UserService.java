@@ -62,4 +62,18 @@ public interface UserService {
 			@Param("oldPwd")String oldPwd,
 			@Param("newPwd")String newPwd
 			);
+	
+	// 保存本周和本月最大花费额度
+	public JSONResult saveLimitCost(
+			@Param("request")HttpServletRequest request, 
+			@Param("weekMaxCost")String weekMaxCost,
+			@Param("monthMaxCost")String monthMaxCost
+			);
+	
+	// 获取本周和本月最大消费额度
+	public JSONResult getLimitCost(@Param("request")HttpServletRequest request);
+	
+	// 获取本周和本月的花费
+	public JSONResult getWeekMonthCost(@Param("request")HttpServletRequest request);
+	
 }

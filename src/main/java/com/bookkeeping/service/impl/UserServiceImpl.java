@@ -14,8 +14,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bookkeeping.appdata.entity.HomePageData;
+import com.bookkeeping.appdata.entity.LimitCostData;
 import com.bookkeeping.appdata.entity.PieChartSeries;
 import com.bookkeeping.appdata.entity.RecordData;
+import com.bookkeeping.appdata.entity.WeekMonthCost;
 import com.bookkeeping.mapper.UserInfoMapper;
 import com.bookkeeping.mapper.UserInfoMapperCustom;
 import com.bookkeeping.mapper.UserRecordMapper;
@@ -169,23 +171,29 @@ public class UserServiceImpl implements UserService{
 		String tableName = model.getUserId();
 		
 		// 获取花费的记录
-		String yearCost = userRecordMapper.getYearSumCost(tableName);
-		String monthCost = userRecordMapper.getMonthSumCost(tableName);
-		String todayCost = userRecordMapper.getDaySumCost(tableName);
+		String yearCostStr = userRecordMapper.getYearSumCost(tableName);
+		String monthCostStr = userRecordMapper.getMonthSumCost(tableName);
+		String todayCostStr = userRecordMapper.getDaySumCost(tableName);
+		
+		// 保留小数点后两位数
+		DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+		Double yearCost = 0.00;
+		Double monthCost = 0.00;
+		Double todayCost = 0.00;
 		
 		// 默认值为0
-		if (yearCost == null) 
-			yearCost = "0";
-		if (monthCost == null) 
-			monthCost = "0";
-		if (todayCost == null) 
-			todayCost = "0";
+		if (yearCost != null) 
+			yearCost = Double.parseDouble(yearCostStr);
+		if (monthCost != null) 
+			monthCost = Double.parseDouble(monthCostStr);
+		if (todayCost != null) 
+			todayCost = Double.parseDouble(todayCostStr);
 		
 		// 封装数据
 		HomePageData data = new HomePageData();
-		data.setYearCost(yearCost);
-		data.setMonthCost(monthCost);
-		data.setTodayCost(todayCost);
+		data.setYearCost(df.format(yearCost));
+		data.setMonthCost(df.format(monthCost));
+		data.setTodayCost(df.format(todayCost));
 		
 		return JSONResult.ok("获取成功", data);
 	}
@@ -262,6 +270,78 @@ public class UserServiceImpl implements UserService{
 			return JSONResult.ok("修改成功");
 		}
 
+	}
+
+	// 保存本周和本月最大花费额度
+	@Override
+	public JSONResult saveLimitCost(HttpServletRequest request, String weekMaxCost, String monthMaxCost) {
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String userId = model.getUserId();
+		
+		if (!weekMaxCost.equals("")) {
+			userInfoCustomMapper.updateWeekMaxCost(userId, weekMaxCost);
+		}
+		if (!monthMaxCost.equals("")) {
+			userInfoCustomMapper.updateMonthMaxCost(userId, monthMaxCost);
+		}
+		
+		LimitCostData data = new LimitCostData();
+		data.setWeekMaxCost(Double.parseDouble(weekMaxCost));
+		data.setMonthMaxCost(Double.parseDouble(monthMaxCost));
+		
+		return JSONResult.ok("提交成功!", data);
+	}
+
+	// 获取本周和本月的花费
+	@Override
+	public JSONResult getWeekMonthCost(HttpServletRequest request) {
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String tableName = model.getUserId();
+		
+		// 获取数据
+		String weekCostStr = userRecordMapper.getWeekCost(tableName);
+		String monthCostStr = userRecordMapper.getMonthSumCost(tableName);
+		
+		// 保留小数点后两位数
+		DecimalFormat df = new DecimalFormat("#########0.00");
+		Double weekCost = 0.00;
+		Double monthCost= 0.00;
+		
+		if (weekCostStr != null) {
+			weekCost = Double.parseDouble(weekCostStr);
+		}
+		if (monthCostStr != null) {
+			monthCost = Double.parseDouble(monthCostStr);
+		}
+		
+		// 封装数据
+		WeekMonthCost cost = new WeekMonthCost();
+		cost.setWeekCost(df.format(weekCost));
+		cost.setMonthCost(df.format(monthCost));
+		
+		
+		return JSONResult.ok("保存成功", cost);
+	}
+
+	// 获取本周或本月限制的消费
+	@Override
+	public JSONResult getLimitCost(HttpServletRequest request) {
+		
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String userId = model.getUserId();
+		
+		// 获取本周和本月最大消费额
+		LimitCostData data = userInfoCustomMapper.queryMaxCost(userId);
+
+		//System.out.println(data.getWeekMaxCost() + " " + data.getMonthMaxCost());
+		
+		return JSONResult.ok("获取成功", data);
 	}
 	
 	
