@@ -59,6 +59,12 @@ public class UserOperInterceptorController {
 		return userService.saveWishMoney(request, wishMoney);
 	}
 	
+	@RequestMapping("/getWishMoney")
+	public JSONResult getWishMoney(HttpServletRequest request) {
+		
+		return userService.getWishMoney(request);
+	}
+	
 	@RequestMapping("/changePassword")
 	public JSONResult changePwd(HttpServletRequest request, String oldPwd, String newPwd) {
 		
@@ -86,4 +92,11 @@ public class UserOperInterceptorController {
 		
 		return userService.getWeekMonthCost(request);
 	}
+	
+	@RequestMapping("/resetUserInfo")
+	public JSONResult resetUserInfo(HttpServletRequest request, String netName, String telephone) {
+		
+		return userService.resetUserInfo(request, netName, telephone);
+	}
+	
 }

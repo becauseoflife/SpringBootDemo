@@ -195,7 +195,7 @@ public class UserServiceImpl implements UserService{
 		data.setMonthCost(df.format(monthCost));
 		data.setTodayCost(df.format(todayCost));
 		
-		return JSONResult.ok("获取成功", data);
+		return JSONResult.ok("获取首页数据成功", data);
 	}
 
 	// 获取记账记录
@@ -214,7 +214,7 @@ public class UserServiceImpl implements UserService{
 		 * r.getCost() + " " + r.getType()); }
 		 */
 		
-		return JSONResult.ok("获取成功", recordList);
+		return JSONResult.ok("获取记账历史记录成功", recordList);
 	}
 
 	// 获取饼状图数据
@@ -232,7 +232,7 @@ public class UserServiceImpl implements UserService{
 			System.out.println(pcs.getName() + "  " + pcs.getData());
 		}
 		
-		return JSONResult.ok("获取成功", seriesList);
+		return JSONResult.ok("获取饼状图数据成功", seriesList);
 	}
 
 	// 保存心愿存钱
@@ -249,6 +249,20 @@ public class UserServiceImpl implements UserService{
 		return JSONResult.ok("保存成功");
 	}
 
+	// 获取心愿存钱数
+	@Override
+	public JSONResult getWishMoney(HttpServletRequest request) {
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String userId = model.getUserId();
+		
+		double wishMoney = userInfoCustomMapper.queryWishMoney(userId);
+		
+		return JSONResult.ok("获取心愿存钱成功", wishMoney);
+		
+	}
+	
 	// 修改密码
 	@Override
 	public JSONResult changePwd(HttpServletRequest request, String oldPwd, String newPwd) {
@@ -291,7 +305,7 @@ public class UserServiceImpl implements UserService{
 		data.setWeekMaxCost(Double.parseDouble(weekMaxCost));
 		data.setMonthMaxCost(Double.parseDouble(monthMaxCost));
 		
-		return JSONResult.ok("提交成功!", data);
+		return JSONResult.ok("设置成功", data);
 	}
 
 	// 获取本周和本月的花费
@@ -324,7 +338,7 @@ public class UserServiceImpl implements UserService{
 		cost.setMonthCost(df.format(monthCost));
 		
 		
-		return JSONResult.ok("保存成功", cost);
+		return JSONResult.ok("获取本周和本月的总消费成功", cost);
 	}
 
 	// 获取本周或本月限制的消费
@@ -341,7 +355,25 @@ public class UserServiceImpl implements UserService{
 
 		//System.out.println(data.getWeekMaxCost() + " " + data.getMonthMaxCost());
 		
-		return JSONResult.ok("获取成功", data);
+		return JSONResult.ok("获取本周和本月限制消费额度成功", data);
+	}
+	
+	
+	// 修改个人信息（网名和手机号）
+	@Override
+	public JSONResult resetUserInfo(HttpServletRequest request, String netName, String telephone) {
+		// 获取session中的信息
+		String sessionId = request.getHeader("sessionId");
+		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
+		String userId = model.getUserId();
+		
+		if (!netName.equals("")) {
+			userInfoCustomMapper.updateNetName(userId, netName);
+		}
+		if(!telephone.equals(""))
+			userInfoCustomMapper.updateTelephone(userId, telephone);
+
+		return JSONResult.ok("修改成功");
 	}
 	
 	

@@ -32,6 +32,16 @@
 			id = #{userId}  
 	</update>
 	
+	<!-- 获取心愿存钱 -->
+	<select id="queryWishMoney" parameterType="java.lang.String" resultType="Double">
+		select
+			hope_save
+		from
+			user_info
+		where
+			id = #{userId} 
+	</select>
+	
 	<!-- 修改密码 -->
 	<update id="updatePassword" parameterType="java.lang.String">
 		update 
@@ -71,4 +81,25 @@
 		where
 			id = #{userId}
 	</select>
+	
+	<!-- 设置网名 -->
+	<update id="updateNetName" parameterType="java.lang.String">
+		update
+			user_info
+		set
+			netName = #{netName}
+		where
+			id = #{userId}
+	</update>
+	
+	<!-- 设置手机号码 -->
+	<update id="updateTelephone" parameterType="java.lang.String">
+		update
+			user_info
+		set
+			telephone = #{telephone}
+		where
+			id = #{userId}
+	</update>
+	
 </mapper>

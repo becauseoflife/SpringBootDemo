@@ -56,6 +56,12 @@ public interface UserService {
 			@Param("wishMoney")String wishMoney
 			);
 	
+	// 获取心愿存钱数
+	public JSONResult getWishMoney(
+		@Param("request")HttpServletRequest request
+	);
+	
+	
 	// 修改密码
 	public JSONResult changePwd(
 			@Param("request")HttpServletRequest request, 
@@ -75,5 +81,12 @@ public interface UserService {
 	
 	// 获取本周和本月的花费
 	public JSONResult getWeekMonthCost(@Param("request")HttpServletRequest request);
+	
+	// 修改个人信息（网名和手机号）
+	public JSONResult resetUserInfo(
+			@Param("request")HttpServletRequest request,
+			@Param("netName")String netName,
+			@Param("telephone")String telephone
+			);
 	
 }
