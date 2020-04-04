@@ -127,6 +127,7 @@ public class UserServiceImpl implements UserService{
 
 	}
 
+	// 保存记账
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public JSONResult saveBookkeeping(HttpServletRequest request, String date, String time, String cost, String type, String imgPath) {
@@ -182,11 +183,11 @@ public class UserServiceImpl implements UserService{
 		Double todayCost = 0.00;
 		
 		// 默认值为0
-		if (yearCost != null) 
+		if (yearCostStr != null) 
 			yearCost = Double.parseDouble(yearCostStr);
-		if (monthCost != null) 
+		if (monthCostStr != null) 
 			monthCost = Double.parseDouble(monthCostStr);
-		if (todayCost != null) 
+		if (todayCostStr != null) 
 			todayCost = Double.parseDouble(todayCostStr);
 		
 		// 封装数据
