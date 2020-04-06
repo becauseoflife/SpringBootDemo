@@ -148,6 +148,7 @@ public class UserServiceImpl implements UserService{
 			e.printStackTrace();
 		}
 		
+		
 		// 创建一条记录
 		UserRecord record = new UserRecord();
 		record.setId(model.getUserId());
@@ -176,13 +177,25 @@ public class UserServiceImpl implements UserService{
 		String monthCostStr = userRecordMapper.getMonthSumCost(tableName);
 		String todayCostStr = userRecordMapper.getDaySumCost(tableName);
 		
+		// 获取收入的记录
+		String yearIncomeStr = userRecordMapper.getYearSumIncome(tableName);
+		String monthIncomeStr = userRecordMapper.getMonthSumIncome(tableName);
+		String todayIncomeStr = userRecordMapper.getDaySumIncome(tableName);
+		
 		// 保留小数点后两位数
 		DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+		
+		//  总支出默认值为0
 		Double yearCost = 0.00;
 		Double monthCost = 0.00;
 		Double todayCost = 0.00;
 		
-		// 默认值为0
+		// 总收入默认值为0
+		Double yearIncome = 0.00;
+		Double monthIncome = 0.00;
+		Double todayIncome = 0.00;
+		
+		// 支出不为空则设置
 		if (yearCostStr != null) 
 			yearCost = Double.parseDouble(yearCostStr);
 		if (monthCostStr != null) 
@@ -190,11 +203,24 @@ public class UserServiceImpl implements UserService{
 		if (todayCostStr != null) 
 			todayCost = Double.parseDouble(todayCostStr);
 		
+		// 收入不为空则设置
+		if (yearIncomeStr != null) 
+			yearIncome = Double.parseDouble(yearIncomeStr);
+		if (monthIncomeStr != null) 
+			monthIncome = Double.parseDouble(monthIncomeStr);
+		if (todayIncomeStr != null) 
+			todayIncome = Double.parseDouble(todayIncomeStr);
+		
+		
 		// 封装数据
 		HomePageData data = new HomePageData();
-		data.setYearCost(df.format(yearCost));
-		data.setMonthCost(df.format(monthCost));
-		data.setTodayCost(df.format(todayCost));
+		data.setYearCost(df.format( Math.abs(yearCost) ));
+		data.setMonthCost(df.format( Math.abs(monthCost) ));
+		data.setTodayCost(df.format( Math.abs(todayCost) ));
+		
+		data.setYearIncome(df.format( Math.abs(yearIncome) ));
+		data.setMonthIncome(df.format( Math.abs(monthIncome) ));
+		data.setTodayIncome(df.format( Math.abs(todayIncome) ));
 		
 		return JSONResult.ok("获取首页数据成功", data);
 	}
@@ -335,8 +361,8 @@ public class UserServiceImpl implements UserService{
 		
 		// 封装数据
 		WeekMonthCost cost = new WeekMonthCost();
-		cost.setWeekCost(df.format(weekCost));
-		cost.setMonthCost(df.format(monthCost));
+		cost.setWeekCost(df.format( Math.abs(weekCost) ));
+		cost.setMonthCost(df.format( Math.abs(monthCost) ));
 		
 		
 		return JSONResult.ok("获取本周和本月的总消费成功", cost);

@@ -53,6 +53,13 @@ public interface UserRecordMapper extends MyMapper<UserRecord> {
 	public String getYearSumCost(@Param("tableName")String tableName);
 	
 	/**
+	 * 查找年收入
+	 * @param tableName
+	 * @return
+	 */
+	public String getYearSumIncome(@Param("tableName")String tableName);
+	
+	/**
 	 * 获取月消费
 	 * @param tableName
 	 * @return
@@ -60,11 +67,25 @@ public interface UserRecordMapper extends MyMapper<UserRecord> {
 	public String getMonthSumCost(@Param("tableName")String tableName);
 	
 	/**
+	 * 查找月收入
+	 * @param tableName
+	 * @return
+	 */
+	public String getMonthSumIncome(@Param("tableName")String tableName);
+	
+	/**
 	 * 获取日消费
 	 * @param tableName
 	 * @return sum(cost)
 	 */
 	public String getDaySumCost(@Param("tableName")String tableName);
+	
+	/**
+	 * 查找日收入
+	 * @param tableName
+	 * @return
+	 */
+	public String getDaySumIncome(@Param("tableName")String tableName);
 	
 	/**
 	 * 查找历史记录

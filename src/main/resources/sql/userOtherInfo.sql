@@ -23,5 +23,6 @@ CREATE TABLE ${tableName} (
   `id` CHAR(20) NOT NULL COMMENT 'id',
   `date` DATETIME NOT NULL COMMENT '日期时间',
   `cost` CHAR(10) NOT NULL COMMENT '花费',
-  `type` CHAR(5) NOT NULL COMMENT '种类'
-); 
+  `type` CHAR(5) NOT NULL COMMENT '种类',
+  `img_path` VARCHAR(50) NOT NULL COMMENT '种类图标'
+);

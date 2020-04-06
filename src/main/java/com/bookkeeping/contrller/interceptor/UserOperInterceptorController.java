@@ -24,7 +24,7 @@ public class UserOperInterceptorController {
 	@RequestMapping("/saveBookkeeping")
 	public JSONResult saveBookkeeping(HttpServletRequest request, String date, String time, String cost, String type, String imgPath) {
 		
-		//System.out.println("date:" + date + " time:" + time + " cost:" + cost + " type:" + type);
+		System.out.println("date:" + date + " time:" + time + " cost:" + cost + " type:" + type + " symbolOfCost: ");
 		
 		return userService.saveBookkeeping(request, date, time, cost, type, imgPath);
 	}

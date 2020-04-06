@@ -31,7 +31,7 @@
 		  `date` DATETIME NOT NULL COMMENT '日期时间',
 		  `cost` CHAR(10) NOT NULL COMMENT '花费',
 		  `type` CHAR(5) NOT NULL COMMENT '种类',
-		  `img_path` CHAR(30) NOT NULL COMMENT '种类图标'
+		  `img_path` VARCHAR(50) NOT NULL COMMENT '种类图标'
 		);
   </update> 
   
@@ -87,7 +87,17 @@
   	from
   		${tableName}
   	where
-  		YEAR(date) = YEAR(NOW())
+  		YEAR(date) = YEAR(NOW()) AND cost &lt; 0
+  </select>
+  
+    <!-- 查找年收入 -->
+  <select id="getYearSumIncome" resultType="String" parameterType="String">
+  	select
+  		sum(cost)
+  	from
+  		${tableName}
+  	where
+  		YEAR(date) = YEAR(NOW()) AND cost &gt; 0
   </select>
   
   <!-- 查找月花费 -->
@@ -97,7 +107,17 @@
   	from
   	 	${tableName}
   	where
-  		DATE_FORMAT(date,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+  		DATE_FORMAT(date,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') AND cost &lt; 0
+  </select>
+
+  <!-- 查找月收入 -->
+  <select id="getMonthSumIncome" resultType="String" parameterType="String">
+  	select
+  		sum(cost)
+  	from
+  	 	${tableName}
+  	where
+  		DATE_FORMAT(date,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') AND cost &gt; 0
   </select>
 
   <!-- 查找日花费 -->
@@ -107,9 +127,18 @@
   		from 
   			${tableName}
   		where 
-  			to_days(date) = to_days(now())
+  			to_days(date) = to_days(now()) AND cost &lt; 0
   </select>
   
+    <!-- 查找日收入 -->
+  <select id="getDaySumIncome" resultType="String" parameterType="String">
+  		select
+  			sum(cost) 
+  		from 
+  			${tableName}
+  		where 
+  			to_days(date) = to_days(now()) AND cost &gt; 0
+  </select>
   
   <!-- 查找历史记录 -->
   <select id="queryRecords" resultType="com.bookkeeping.appdata.entity.RecordData" parameterType="String">
@@ -142,7 +171,7 @@
   		from 
   			${tableName}
   		where 
-  			YEARWEEK(date_format(date,'%Y-%m-%d'), 1) = YEARWEEK(now(), 1);
+  			YEARWEEK(date_format(date,'%Y-%m-%d'), 1) = YEARWEEK(now(), 1) AND cost &lt; 0
   </select>
   
   

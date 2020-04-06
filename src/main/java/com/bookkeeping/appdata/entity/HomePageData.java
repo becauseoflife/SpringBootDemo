@@ -8,6 +8,12 @@ public class HomePageData {
 	private String monthCost;		// 本月消费 
 	
 	private String yearCost;		// 本年消费
+	
+	private String todayIncome;		// 本日收入
+	
+	private String monthIncome;     // 本月收入
+	
+	private String yearIncome;		// 本年收入
 
 	public String getTodayCost() {
 		return todayCost;
@@ -31,6 +37,30 @@ public class HomePageData {
 
 	public void setYearCost(String yearCost) {
 		this.yearCost = yearCost;
+	}
+
+	public String getTodayIncome() {
+		return todayIncome;
+	}
+
+	public void setTodayIncome(String todayIncome) {
+		this.todayIncome = todayIncome;
+	}
+
+	public String getMonthIncome() {
+		return monthIncome;
+	}
+
+	public void setMonthIncome(String monthIncome) {
+		this.monthIncome = monthIncome;
+	}
+
+	public String getYearIncome() {
+		return yearIncome;
+	}
+
+	public void setYearIncome(String yearIncome) {
+		this.yearIncome = yearIncome;
 	}
 
 }
