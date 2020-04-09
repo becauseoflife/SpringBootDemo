@@ -141,11 +141,31 @@
   </select>
   
   <!-- 查找历史记录 -->
-  <select id="queryRecords" resultType="com.bookkeeping.appdata.entity.RecordData" parameterType="String">
+  <select id="queryAllRecords" resultType="com.bookkeeping.appdata.entity.RecordData" parameterType="String">
   		select
   			date, cost, type, img_path
   		from
   			${tableName}
+  </select>
+  
+  <!-- 支出 -->
+   <select id="queryPayRecords" resultType="com.bookkeeping.appdata.entity.RecordData" parameterType="String">
+  		select
+  			date, cost, type, img_path
+  		from
+  			${tableName}
+  		where
+  			 cost &lt; 0
+  </select>
+  
+  <!-- 收入 -->
+  <select id="queryIncomeRecords" resultType="com.bookkeeping.appdata.entity.RecordData" parameterType="String">
+  		select
+  			date, cost, type, img_path
+  		from
+  			${tableName} 
+  		where
+  			cost &gt; 0
   </select>
   
   <!-- 统计类型的数量 -->

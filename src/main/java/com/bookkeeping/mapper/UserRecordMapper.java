@@ -92,7 +92,11 @@ public interface UserRecordMapper extends MyMapper<UserRecord> {
 	 * @param tableName
 	 * @return
 	 */
-	public List<RecordData> queryRecords(@Param("tableName")String tableName);
+	public List<RecordData> queryAllRecords(@Param("tableName")String tableName);
+	
+	public List<RecordData> queryPayRecords(@Param("tableName")String tableName);
+	
+	public List<RecordData> queryIncomeRecords(@Param("tableName")String tableName);
 	
 	/**
 	 * 统计类型的数量

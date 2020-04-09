@@ -227,21 +227,36 @@ public class UserServiceImpl implements UserService{
 
 	// 获取记账记录
 	@Override
-	public JSONResult getRecords(HttpServletRequest request) {
+	public JSONResult getRecords(HttpServletRequest request, String type) {
 
 		// 获取session中的信息
 		String sessionId = request.getHeader("sessionId");
 		WXSessionModel model = JsonUtils.jsonToPojo(redisOper.get("wxlogin-user-session:" + sessionId), WXSessionModel.class);
 		String tableName = model.getUserId();
 		
-		List<RecordData> recordList = userRecordMapper.queryRecords(tableName);
-		
+		List<RecordData> recordList;
+		// 判断获取的种类
+		if (type.equals("all")) {
+			recordList = userRecordMapper.queryAllRecords(tableName);  // 获取全部的历史记录
+			type = "所有";
+		}
+		else if (type.equals("pay")) {
+			recordList = userRecordMapper.queryPayRecords(tableName);	// 获取支出的历史记录
+			type = "支出";
+		}
+		else if(type.equals("income")) {
+			recordList = userRecordMapper.queryIncomeRecords(tableName);	// 获取收入的历史记录
+			type = "收入";
+		}
+		else {
+			recordList = null;
+		}
 		/*
 		 * for(RecordData r:recordList) { System.out.println(r.getDate() + " " +
 		 * r.getCost() + " " + r.getType()); }
 		 */
 		
-		return JSONResult.ok("获取记账历史记录成功", recordList);
+		return JSONResult.ok("获取"+ type +"记账历史记录成功", recordList);
 	}
 
 	// 获取饼状图数据
@@ -324,13 +339,13 @@ public class UserServiceImpl implements UserService{
 		if (!weekMaxCost.equals("")) {
 			userInfoCustomMapper.updateWeekMaxCost(userId, weekMaxCost);
 		}
+			
 		if (!monthMaxCost.equals("")) {
 			userInfoCustomMapper.updateMonthMaxCost(userId, monthMaxCost);
 		}
 		
-		LimitCostData data = new LimitCostData();
-		data.setWeekMaxCost(Double.parseDouble(weekMaxCost));
-		data.setMonthMaxCost(Double.parseDouble(monthMaxCost));
+		// 获取本周和本月最大消费额
+		LimitCostData data = userInfoCustomMapper.queryMaxCost(userId);
 		
 		return JSONResult.ok("设置成功", data);
 	}

@@ -43,7 +43,7 @@ public interface UserService {
 			);
 	
 	// 获取历史数据
-	public JSONResult getRecords(@Param("request")HttpServletRequest request);
+	public JSONResult getRecords(@Param("request")HttpServletRequest request, @Param("type")String type);
 	
 	// 获取饼状图的数据
 	public JSONResult getPieChartData(

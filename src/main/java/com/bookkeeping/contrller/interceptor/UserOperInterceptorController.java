@@ -36,9 +36,9 @@ public class UserOperInterceptorController {
 	}
 	
 	@RequestMapping("/getRecord")
-	public JSONResult getRecord(HttpServletRequest request) {
+	public JSONResult getRecord(HttpServletRequest request, String type) {
 		
-		return userService.getRecords(request);
+		return userService.getRecords(request, type);
 	}
 	
 	@RequestMapping("/getPieChartsData")
@@ -76,7 +76,7 @@ public class UserOperInterceptorController {
 	@RequestMapping("/saveLimitCost")
 	public JSONResult saveLimitCost(HttpServletRequest request, String weekMaxCost, String monthMaxCost) {
 		
-		System.out.println("本周最大花费：" + weekMaxCost + " 本月最大花费：" + monthMaxCost);
+		//System.out.println("本周最大花费：" + weekMaxCost + " 本月最大花费：" + monthMaxCost);
 		
 		return userService.saveLimitCost(request, weekMaxCost, monthMaxCost);
 	}
